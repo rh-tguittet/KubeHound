@@ -111,3 +111,11 @@ func CheckEndpoint(ep types.EndpointType) (bool, error) {
 
 	return true, nil
 }
+
+func CheckRoute(route types.RouteType) (bool, error) {
+	if route == nil {
+		return false, errors.New("nil route input in preflight check")
+	}
+
+	return true, nil
+}

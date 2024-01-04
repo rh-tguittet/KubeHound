@@ -1,8 +1,9 @@
 package config
 
 const (
-	CollectorTypeFile   = "file-collector"
-	CollectorTypeK8sAPI = "live-k8s-api-collector"
+	CollectorTypeFile         = "file-collector"
+	CollectorTypeK8sAPI       = "live-k8s-api-collector"
+	CollectorTypeOpenShiftAPI = "live-openshift-api-collector"
 )
 
 const (

@@ -26,6 +26,7 @@ const (
 	EntityEndpoints           = "endpoints"
 	EntityClusterRoles        = "clusterroles"
 	EntityClusterRolebindings = "clusterrolebindings"
+	EntityRoutes              = "routes" // OpenShift-specific
 )
 
 var (

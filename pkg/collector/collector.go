@@ -116,7 +116,30 @@ func ClientFactory(ctx context.Context, cfg *config.KubehoundConfig) (CollectorC
 		return NewK8sAPICollector(ctx, cfg)
 	case cfg.Collector.Type == config.CollectorTypeFile:
 		return NewFileCollector(ctx, cfg)
+	case cfg.Collector.Type == config.CollectorTypeOpenShiftAPI:
+		return NewOpenShiftAPICollector(ctx, cfg)
 	default:
 		return nil, fmt.Errorf("collector type not supported: %s", cfg.Collector.Type)
 	}
+}
+
+/*
+ * OpenShift specific
+ */
+
+// OpenShiftCollectorClient testing
+type OpenShiftCollectorClient interface {
+	CollectorClient
+
+	// StreamRoutes will iterate through all Route objects and invoke the ingestor.IngestRoute method on each.
+	// Once all the Route objects have been exhausted the ingestor.Complete method will be invoked to signal the end of the stream.
+	StreamRoutes(ctx context.Context, ingestor RouteIngestor) error
+}
+
+// RouteIngestor defines the interface to allow an ingestor to consume route inputs from a collector.
+//
+//go:generate mockery --name RouteIngestor --output mockingest --case underscore --filename route_ingestor.go --with-expecter
+type RouteIngestor interface {
+	IngestRoute(context.Context, types.RouteType) error
+	Complete(context.Context) error
 }

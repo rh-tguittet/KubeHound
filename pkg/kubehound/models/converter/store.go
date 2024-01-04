@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	corev1 "k8s.io/api/core/v1"
 	discoveryv1 "k8s.io/api/discovery/v1"
@@ -617,4 +616,16 @@ func (c *StoreConverter) EndpointPrivate(_ context.Context, port *corev1.Contain
 	}
 
 	return output, nil
+}
+
+func (c *StoreConverter) Route(ctx context.Context, input types.RouteType) (*store.Route, error) {
+	return &store.Route{
+		Id:           store.ObjectID(),
+		IsNamespaced: true,
+		Namespace:    input.Namespace,
+		Name:         input.Name,
+		K8:           *input,
+		Ownership:    store.ExtractOwnership(input.ObjectMeta.Labels),
+		Runtime:      store.Runtime(c.runtime),
+	}, nil
 }

@@ -14,6 +14,7 @@ const (
 	IdentityName      = "identities"
 	PermissionSetName = "permissionsets"
 	EndpointName      = "endpoints"
+	RouteName         = "routes"
 )
 
 // Collection provides a common abstraction of a SQL database table or a NoSQL object

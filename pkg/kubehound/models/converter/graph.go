@@ -255,3 +255,20 @@ func (c *GraphConverter) Endpoint(input *store.Endpoint) (*graph.Endpoint, error
 
 	return output, nil
 }
+
+// Route returns the graph representation of a route vertex from a store route model input.
+func (c *GraphConverter) Route(input *store.Route) (*graph.Route, error) {
+	output := &graph.Route{
+		StoreID:      input.Id.Hex(),
+		App:          input.Ownership.Application,
+		Team:         input.Ownership.Team,
+		Service:      input.Ownership.Service,
+		RunID:        c.runtime.RunID.String(),
+		Cluster:      c.runtime.Cluster,
+		IsNamespaced: true,
+		Namespace:    input.Namespace,
+		Name:         input.Name,
+	}
+
+	return output, nil
+}

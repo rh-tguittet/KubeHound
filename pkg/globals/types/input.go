@@ -1,6 +1,7 @@
 package types
 
 import (
+	routev1 "github.com/openshift/api/route/v1"
 	corev1 "k8s.io/api/core/v1"
 	discoveryv1 "k8s.io/api/discovery/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -16,8 +17,11 @@ type ClusterRoleType *rbacv1.ClusterRole
 type ClusterRoleBindingType *rbacv1.ClusterRoleBinding
 type EndpointType *discoveryv1.EndpointSlice
 
+// Openshift specific
+type RouteType *routev1.Route
+
 type InputType interface {
-	PodType | NodeType | ContainerType | VolumeMountType | RoleType | RoleBindingType | ClusterRoleType | ClusterRoleBindingType | EndpointType
+	PodType | NodeType | ContainerType | VolumeMountType | RoleType | RoleBindingType | ClusterRoleType | ClusterRoleBindingType | EndpointType | RouteType
 }
 
 type ListInputType interface {

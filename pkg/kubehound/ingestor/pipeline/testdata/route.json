@@ -1,0 +1,27 @@
+{
+    "apiVersion": "route.openshift.io/v1",
+    "kind": "Route",
+    "metadata": {
+        "creationTimestamp": "2022-07-05T14:48:49Z",
+        "labels": {
+            "app": "myguestbook"
+        },
+        "name": "pathroute",
+        "namespace": "devuser2-project",
+        "resourceVersion": "10191907",
+        "uid": "68232eb3-7e66-400a-b467-1a195cfc5a4a"
+    },
+    "spec": {
+        "host": "myguestbook.com",
+        "path": "/got-it",
+        "tls": {
+            "termination": "edge"
+        },
+        "to": {
+            "kind": "Service",
+            "name": "myguestbook",
+            "weight": 100
+        },
+        "wildcardPolicy": "None"
+    }
+}
