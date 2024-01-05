@@ -2,10 +2,11 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
+	"github.com/DataDog/KubeHound/pkg/collector"
 	"github.com/DataDog/KubeHound/pkg/globals/types"
 	"github.com/DataDog/KubeHound/pkg/kubehound/graph/vertex"
 	"github.com/DataDog/KubeHound/pkg/kubehound/ingestor/preflight"
-	"github.com/DataDog/KubeHound/pkg/kubehound/storage/cache"
 	"github.com/DataDog/KubeHound/pkg/kubehound/store/collections"
 )
 
@@ -13,10 +14,15 @@ const (
 	RouteIngestName = "openshift-route-ingest"
 )
 
+type openshiftIngressResources struct {
+	*IngestResources
+	collect collector.OpenShiftCollectorClient
+}
+
 type RouteIngest struct {
 	vertex     *vertex.Route
 	collection collections.Route
-	r          *IngestResources
+	r          *openshiftIngressResources
 }
 
 func (i *RouteIngest) Name() string { return RouteIngestName }
@@ -29,12 +35,21 @@ func (i *RouteIngest) Initialize(ctx context.Context, deps *Dependencies) error 
 	i.vertex = &vertex.Route{}
 	i.collection = collections.Route{}
 
-	i.r, err = CreateResources(ctx, deps,
-		WithCacheWriter(cache.WithExpectedOverwrite()),
+	resources, err := CreateResources(ctx, deps,
 		WithStoreWriter(i.collection),
 		WithGraphWriter(i.vertex))
 	if err != nil {
 		return err
+	}
+
+	openshiftCollector, ok := deps.Collector.(collector.OpenShiftCollectorClient)
+	if !ok {
+		return fmt.Errorf("incorrect collector type expected OpenShiftCollectorClient")
+	}
+
+	i.r = &openshiftIngressResources{
+		resources,
+		openshiftCollector,
 	}
 
 	return nil

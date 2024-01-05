@@ -128,6 +128,8 @@ func ClientFactory(ctx context.Context, cfg *config.KubehoundConfig) (CollectorC
  */
 
 // OpenShiftCollectorClient testing
+//
+//go:generate mockery --name OpenShiftCollectorClient --output mockcollector --case underscore --filename openshift_collector_client.go --with-expecter
 type OpenShiftCollectorClient interface {
 	CollectorClient
 

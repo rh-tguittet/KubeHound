@@ -23,7 +23,7 @@ func TestRouteIngest_Pipeline(t *testing.T) {
 	fakeRoute, err := loadTestObject[types.RouteType]("testdata/route.json")
 	assert.NoError(t, err)
 
-	client := mockcollect.NewCollectorClient(t)
+	client := mockcollect.NewOpenShiftCollectorClient(t)
 	client.EXPECT().StreamRoutes(ctx, ri).
 		RunAndReturn(func(ctx context.Context, i collector.RouteIngestor) error {
 			// Fake the stream of a single route from the collector client

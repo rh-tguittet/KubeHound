@@ -26,8 +26,8 @@ type PipelineIngestor struct {
 }
 
 // ingestSequence returns the optimized pipeline sequence for ingestion.
-func ingestSequence() []pipeline.Sequence {
-	return []pipeline.Sequence{
+func ingestSequence(cfg *config.KubehoundConfig) []pipeline.Sequence {
+	ingestPipeline := []pipeline.Sequence{
 		{
 			Name: "core-pipeline",
 			Groups: []pipeline.Group{
@@ -61,6 +61,23 @@ func ingestSequence() []pipeline.Sequence {
 			},
 		},
 	}
+
+	if cfg.Collector.Type == config.CollectorTypeOpenShiftAPI {
+		openshiftIngestPipeline := pipeline.Sequence{
+			Name: "openshift-pipeline",
+			Groups: []pipeline.Group{
+				{
+					Name: "openshift-network-group",
+					Ingests: []pipeline.ObjectIngest{
+						&pipeline.RouteIngest{},
+					},
+				},
+			},
+		}
+		ingestPipeline = append(ingestPipeline, openshiftIngestPipeline)
+	}
+
+	return ingestPipeline
 }
 
 // newPipelineIngestor creates a new pipeline ingestor instance.
@@ -73,7 +90,7 @@ func newPipelineIngestor(cfg *config.KubehoundConfig, collect collector.Collecto
 		cache:     c,
 		storedb:   storedb,
 		graphdb:   graphdb,
-		sequences: ingestSequence(),
+		sequences: ingestSequence(cfg),
 	}
 
 	return n, nil
