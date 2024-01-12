@@ -20,6 +20,7 @@ pod = mgmt.makeVertexLabel('Pod').make();
 permissionSet = mgmt.makeVertexLabel('PermissionSet').make();
 volume = mgmt.makeVertexLabel('Volume').make();
 endpoint = mgmt.makeVertexLabel('Endpoint').make();
+route = mgmt.makeVertexLabel('Route').make();
 
 // Create our edge labels and connections
 permissionDiscover = mgmt.makeEdgeLabel('PERMISSION_DISCOVER').multiplicity(MULTI).make();
@@ -160,6 +161,7 @@ mgmt.addProperties(permissionSet, cls, cluster, runID, storeID, app, team, servi
 mgmt.addProperties(volume, cls, cluster, runID, storeID, app, team, service, name, isNamespaced, namespace, type, sourcePath, mountPath, readonly);
 mgmt.addProperties(endpoint, cls, cluster, runID, storeID, app, team, service, name, isNamespaced, namespace, serviceEndpoint, serviceDns, addressType, 
     addresses, port, portName, protocol, exposure, compromised);
+mgmt.addProperties(route, cls, cluster, runID, storeID, app, team, service, name, isNamespaced, namespace)
 
 
 // Create the indexes on vertex properties
