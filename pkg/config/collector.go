@@ -1,9 +1,10 @@
 package config
 
 const (
-	CollectorTypeFile         = "file-collector"
-	CollectorTypeK8sAPI       = "live-k8s-api-collector"
-	CollectorTypeOpenShiftAPI = "live-openshift-api-collector"
+	CollectorTypeFile          = "file-collector"
+	CollectorTypeK8sAPI        = "live-k8s-api-collector"
+	CollectorTypeOpenShiftAPI  = "live-openshift-api-collector"
+	CollectorTypeOpenShiftFile = "file-openshift-collector"
 )
 
 const (
@@ -36,4 +37,9 @@ type FileCollectorConfig struct {
 // OpenShiftAPICollectorConfig builds upon K8SAPICollectorConfig
 type OpenShiftAPICollectorConfig struct {
 	K8SAPICollectorConfig
+}
+
+// OpenShiftFileCollectorConfig builds upon FileCollectorConfig
+type OpenShiftFileCollectorConfig struct {
+	FileCollectorConfig
 }

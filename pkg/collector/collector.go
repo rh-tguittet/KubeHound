@@ -118,6 +118,8 @@ func ClientFactory(ctx context.Context, cfg *config.KubehoundConfig) (CollectorC
 		return NewFileCollector(ctx, cfg)
 	case cfg.Collector.Type == config.CollectorTypeOpenShiftAPI:
 		return NewOpenShiftAPICollector(ctx, cfg)
+	case cfg.Collector.Type == config.CollectorTypeOpenShiftFile:
+		return NewOpenShiftFileCollector(ctx, cfg)
 	default:
 		return nil, fmt.Errorf("collector type not supported: %s", cfg.Collector.Type)
 	}

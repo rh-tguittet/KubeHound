@@ -62,7 +62,7 @@ func ingestSequence(cfg *config.KubehoundConfig) []pipeline.Sequence {
 		},
 	}
 
-	if cfg.Collector.Type == config.CollectorTypeOpenShiftAPI {
+	if cfg.Collector.Type == config.CollectorTypeOpenShiftAPI || cfg.Collector.Type == config.CollectorTypeOpenShiftFile {
 		openshiftIngestPipeline := pipeline.Sequence{
 			Name: "openshift-pipeline",
 			Groups: []pipeline.Group{

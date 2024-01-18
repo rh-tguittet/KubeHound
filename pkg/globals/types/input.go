@@ -24,6 +24,11 @@ type InputType interface {
 	PodType | NodeType | ContainerType | VolumeMountType | RoleType | RoleBindingType | ClusterRoleType | ClusterRoleBindingType | EndpointType | RouteType
 }
 
+// Openshift specific types for ListInputType
+type openshiftListInputType interface {
+	routev1.RouteList
+}
+
 type ListInputType interface {
-	corev1.PodList | corev1.NodeList | rbacv1.RoleList | rbacv1.RoleBindingList | rbacv1.ClusterRoleList | rbacv1.ClusterRoleBindingList | discoveryv1.EndpointSliceList
+	corev1.PodList | corev1.NodeList | rbacv1.RoleList | rbacv1.RoleBindingList | rbacv1.ClusterRoleList | rbacv1.ClusterRoleBindingList | discoveryv1.EndpointSliceList | openshiftListInputType
 }
